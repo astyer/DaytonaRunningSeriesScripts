@@ -1,7 +1,6 @@
 "use es6";
 // pkg sortResults.js -t host
 
-// import * as fs from "fs";
 const XLSX = require("xlsx");
 
 const [, , inputResultsExcelPath, outputResultsExcelPath] = process.argv;
