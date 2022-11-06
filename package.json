@@ -20,5 +20,5 @@
     "fs": "^0.0.1-security",
     "xlsx": "^0.18.5"
   },
-  "type": "module"
+  "type": "commonjs"
 }
