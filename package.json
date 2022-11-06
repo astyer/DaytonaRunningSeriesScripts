@@ -1,0 +1,24 @@
+{
+  "name": "daytonarunningseriesscripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astyer/DaytonaRunningSeriesScripts.git"
+  },
+  "author": "Adam Styer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astyer/DaytonaRunningSeriesScripts/issues"
+  },
+  "homepage": "https://github.com/astyer/DaytonaRunningSeriesScripts#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "xlsx": "^0.18.5"
+  },
+  "type": "module"
+}
