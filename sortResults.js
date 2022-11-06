@@ -3,17 +3,15 @@
 
 // import * as fs from "fs";
 const XLSX = require("xlsx");
-// import { read, utils, writeFile, set_fs } from "xlsx/xlsx.mjs";
 
 const [, , inputResultsExcelPath, outputResultsExcelPath] = process.argv;
 
-const fileBuffer = fs.readFileSync(inputResultsExcelPath);
-const inputWorkbook = read(fileBuffer);
+const inputWorkbook = XLSX.readFile(inputResultsExcelPath);
 const inputSheet = inputWorkbook.Sheets[inputWorkbook.SheetNames[0]];
-const sheetRange = utils.decode_range(inputSheet["!ref"]);
+const sheetRange = XLSX.utils.decode_range(inputSheet["!ref"]);
 
 const outputPath = outputResultsExcelPath || "Results.xlsx";
-const outputWorkbook = utils.book_new();
+const outputWorkbook = XLSX.utils.book_new();
 outputWorkbook.title = outputPath.slice(0, -5);
 
 const resultSheets = {
@@ -108,10 +106,10 @@ const resultSheets = {
 };
 
 for (let row = 0; row <= sheetRange.e.r; row++) {
-  const position = inputSheet[utils.encode_cell({ r: row, c: 0 })].v;
-  const name = inputSheet[utils.encode_cell({ r: row, c: 1 })].v;
-  const sex = inputSheet[utils.encode_cell({ r: row, c: 2 })].v;
-  const age = inputSheet[utils.encode_cell({ r: row, c: 3 })].v;
+  const position = inputSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v;
+  const name = inputSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v;
+  const sex = inputSheet[XLSX.utils.encode_cell({ r: row, c: 2 })].v;
+  const age = inputSheet[XLSX.utils.encode_cell({ r: row, c: 3 })].v;
   const rowData = [position, name, sex, age];
 
   const sexKey = sex == "M" ? "male" : "female";
@@ -133,56 +131,39 @@ for (let row = 0; row <= sheetRange.e.r; row++) {
   // age groups
   if (age < 10) {
     resultSheets.under10[sexKey].data.push(rowData);
-  }
-  else if (age < 15) {
+  } else if (age < 15) {
     resultSheets.under15[sexKey].data.push(rowData);
-  }
-  else if (age < 20) {
+  } else if (age < 20) {
     resultSheets.under20[sexKey].data.push(rowData);
-  }
-  else if (age < 25) {
+  } else if (age < 25) {
     resultSheets.under25[sexKey].data.push(rowData);
-  }
-  else if (age < 30) {
+  } else if (age < 30) {
     resultSheets.under30[sexKey].data.push(rowData);
-  }
-  else if (age < 35) {
+  } else if (age < 35) {
     resultSheets.under35[sexKey].data.push(rowData);
-  }
-  else if (age < 40) {
+  } else if (age < 40) {
     resultSheets.under40[sexKey].data.push(rowData);
-  }
-  else if (age < 45) {
+  } else if (age < 45) {
     resultSheets.under45[sexKey].data.push(rowData);
-  }
-  else if (age < 50) {
+  } else if (age < 50) {
     resultSheets.under50[sexKey].data.push(rowData);
-  }
-  else if (age < 55) {
+  } else if (age < 55) {
     resultSheets.under55[sexKey].data.push(rowData);
-  }
-  else if (age < 60) {
+  } else if (age < 60) {
     resultSheets.under60[sexKey].data.push(rowData);
-  }
-  else if (age < 65) {
+  } else if (age < 65) {
     resultSheets.under65[sexKey].data.push(rowData);
-  }
-  else if (age < 70) {
+  } else if (age < 70) {
     resultSheets.under70[sexKey].data.push(rowData);
-  }
-  else if (age < 75) {
+  } else if (age < 75) {
     resultSheets.under75[sexKey].data.push(rowData);
-  }
-  else if (age < 80) {
+  } else if (age < 80) {
     resultSheets.under80[sexKey].data.push(rowData);
-  }
-  else if (age < 85) {
+  } else if (age < 85) {
     resultSheets.under85[sexKey].data.push(rowData);
-  }
-  else if (age < 90) {
+  } else if (age < 90) {
     resultSheets.under90[sexKey].data.push(rowData);
-  }
-  else {
+  } else {
     resultSheets.over89[sexKey].data.push(rowData);
   }
 }
@@ -190,9 +171,8 @@ for (let row = 0; row <= sheetRange.e.r; row++) {
 for (let sheet of Object.values(resultSheets)) {
   outputWorkbook.SheetNames.push(sheet.male.name);
   outputWorkbook.SheetNames.push(sheet.female.name);
-  outputWorkbook.Sheets[sheet.male.name] = utils.aoa_to_sheet(sheet.male.data);
-  outputWorkbook.Sheets[sheet.female.name] = utils.aoa_to_sheet(sheet.female.data);
+  outputWorkbook.Sheets[sheet.male.name] = XLSX.utils.aoa_to_sheet(sheet.male.data);
+  outputWorkbook.Sheets[sheet.female.name] = XLSX.utils.aoa_to_sheet(sheet.female.data);
 }
 
-set_fs(fs);
-writeFile(outputWorkbook, outputPath);
+XLSX.writeFile(outputWorkbook, outputPath);
